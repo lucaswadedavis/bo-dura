@@ -3,12 +3,6 @@
 // the todo items and provide user authentication and sessions.
 
 $(function() {
-
-  var creds = {
-    appID: "SY1OTjSeLipYc4dYFeDtEjRMaY14mH9jqqJJpMKj",
-    jsKey: "yeycFv3YO0mX7ZSQOrIH5U4nYWPJvvHV3BjksklC"
-  };
-
   Parse.$ = jQuery;
 
   // Initialize Parse with your Parse application javascript keys
