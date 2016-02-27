@@ -21,7 +21,7 @@ button {
 body {
     font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
     line-height: 1.4em;
-    background: #eeeeee url('../images/bg.png');
+    background: #ffffff;
     color: #4d4d4d;
     width: 550px;
     margin: 0 auto;
@@ -32,7 +32,7 @@ body {
     font-smoothing: antialiased;
 }
 
-#todoapp {
+#messageapp {
     background: #fff;
     background: rgba(255, 255, 255, 0.9);
     margin: 130px 0 40px 0;
@@ -44,7 +44,7 @@ body {
     0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
 
-#todoapp:before {
+#messageapp:before {
     content: '';
     border-left: 1px solid #f5d6d6;
     border-right: 1px solid #f5d6d6;
@@ -56,23 +56,23 @@ body {
     height: 100%;
 }
 
-#todoapp input::-webkit-input-placeholder {
+#messageapp input::-webkit-input-placeholder {
     font-style: italic;
 }
 
-#todoapp input:-moz-placeholder {
+#messageapp input:-moz-placeholder {
     font-style: italic;
     color: #a9a9a9;
 }
 
-#todoapp h1 {
+#messageapp h1 {
     position: absolute;
     top: -120px;
     width: 100%;
     font-size: 70px;
     font-weight: bold;
     text-align: center;
-    color: #888;
+    color: #f00;
     -webkit-text-rendering: optimizeLegibility;
     -moz-text-rendering: optimizeLegibility;
     -ms-text-rendering: optimizeLegibility;
@@ -110,7 +110,8 @@ body {
     border-top-right-radius: 1px;
 }
 
-#new-todo,
+#new-message,
+#new-message-recipient,
 .edit {
     position: relative;
     margin: 0;
@@ -136,7 +137,7 @@ body {
     font-smoothing: antialiased;
 }
 
-#new-todo {
+#new-message, #new-message-recipient {
     padding: 16px 16px 16px 60px;
     border: none;
     background: rgba(0, 0, 0, 0.02);
@@ -182,45 +183,45 @@ label[for='toggle-all'] {
     color: #737373;
 }
 
-#todo-list {
+#message-list {
     margin: 0;
     padding: 0;
     list-style: none;
     text-align: center;
 }
 
-#todo-list .spinner {
+#message-list .spinner {
     margin: 15px auto;
 }
 
-#todo-list li {
+#message-list li {
     text-align: left;
     position: relative;
     font-size: 24px;
     border-bottom: 1px dotted #ccc;
 }
 
-#todo-list li:last-child {
+#message-list li:last-child {
     border-bottom: none;
 }
 
-#todo-list li.editing {
+#message-list li.editing {
     border-bottom: none;
     padding: 0;
 }
 
-#todo-list li.editing .edit {
+#message-list li.editing .edit {
     display: block;
     width: 506px;
     padding: 13px 17px 12px 17px;
     margin: 0 0 0 43px;
 }
 
-#todo-list li.editing .view {
+#message-list li.editing .view {
     display: none;
 }
 
-#todo-list li .toggle {
+#message-list li .toggle {
     text-align: center;
     width: 40px;
     height: 40px;
@@ -235,7 +236,7 @@ label[for='toggle-all'] {
     appearance: none;
 }
 
-#todo-list li .toggle:after {
+#message-list li .toggle:after {
     font-size: 18px;
     content: '✔';
     line-height: 43px; /* 40 + a couple of pixels visual adjustment */
@@ -244,14 +245,14 @@ label[for='toggle-all'] {
     text-shadow: 0 -1px 0 #bfbfbf;
 }
 
-#todo-list li .toggle:checked:after {
+#message-list li .toggle:checked:after {
     color: #85ada7;
     text-shadow: 0 1px 0 #669991;
     bottom: 1px;
     position: relative;
 }
 
-#todo-list li label {
+#message-list li label {
     word-break: break-word;
     margin: 15px 15px 15px 60px;
     display: inline-block;
@@ -263,12 +264,12 @@ label[for='toggle-all'] {
     transition: color 0.4s;
 }
 
-#todo-list li.completed label {
+#message-list li.completed label {
     color: #a9a9a9;
     text-decoration: line-through;
 }
 
-#todo-list li .todo-destroy {
+#message-list li .message-destroy {
     display: none;
     position: absolute;
     top: 0;
@@ -286,7 +287,7 @@ label[for='toggle-all'] {
     transition: all 0.2s;
 }
 
-#todo-list li .todo-destroy:hover {
+#message-list li .message-destroy:hover {
     text-shadow: 0 0 1px #000,
     0 0 10px rgba(199, 107, 107, 0.8);
     -webkit-transform: scale(1.3);
@@ -296,19 +297,19 @@ label[for='toggle-all'] {
     transform: scale(1.3);
 }
 
-#todo-list li .todo-destroy:after {
+#message-list li .message-destroy:after {
     content: '✖';
 }
 
-#todo-list li:hover .todo-destroy {
+#message-list li:hover .message-destroy {
     display: block;
 }
 
-#todo-list li .edit {
+#message-list li .edit {
     display: none;
 }
 
-#todo-list li.editing:last-child {
+#message-list li.editing:last-child {
     margin-bottom: -1px;
 }
 
@@ -338,7 +339,7 @@ label[for='toggle-all'] {
     0 43px 2px -6px rgba(0, 0, 0, 0.2);
 }
 
-#todo-count {
+#message-count {
     float: left;
     text-align: left;
 }
@@ -401,23 +402,23 @@ label[for='toggle-all'] {
   */
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     #toggle-all,
-    #todo-list li .toggle {
+    #message-list li .toggle {
 	background: none;
     }
 }
 
-#todoapp .content .login {
+#messageapp .content .login {
     width: 350px;
     margin: 45px auto 25px auto;
 }
 
-#todoapp .content .login h2 {
+#messageapp .content .login h2 {
     font-weight: normal;
     font-size: 25px;
     margin-bottom: 20px;
 }
 
-#todoapp .content .login input {
+#messageapp .content .login input {
     display: block;
     margin-bottom: 10px;
     font-size: 20px;
@@ -425,11 +426,11 @@ label[for='toggle-all'] {
     width: 340px;;
 }
 
-#todoapp .content .login .signup-form {
+#messageapp .content .login .signup-form {
     margin-top: 25px;
 }
 
-#todoapp .content .login button {
+#messageapp .content .login button {
     padding: 5px 10px;
     background: #eee;
     font-size: 20px;
@@ -439,22 +440,32 @@ label[for='toggle-all'] {
     font-family: "Helvetica Neue";
 }
 
-#todoapp .content .login .error {
+#messageapp .content .login .error {
     border: 1px solid red;
     background: #FDEFF0;
     padding: 5px 15px;
     margin-bottom: 15px;
 }
 
-#todoapp .content #user-info {
+#messageapp .content #user-info {
+    background: #000;
+    color: #fff;
+    font-weight: bold;
     padding: 5px 10px;
     border-top: 1px solid #ededed;
     margin-bottom: 0px;
     text-align: right;
 }
 
+#messageapp .content #user-info a.log-out {
+    text-decoration: none;
+    color: #fff;
+    background: #f00;
+    padding: 5px;
+    margin: -50px -10px -5px 20px;
+}
 
-#todoapp .content .mark-all-done {
+#messageapp .content .mark-all-done {
     margin-left: 8px;
 }
 
