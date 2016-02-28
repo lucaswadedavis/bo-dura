@@ -188,6 +188,8 @@ $(function() {
         // Fetch all the message items for this user
         this.messages.fetch();
 
+        this.displayImage();
+
         state.on("change", this.filter, this);
       },
 
@@ -244,6 +246,29 @@ $(function() {
         this.addAll();
       },
 
+      displayImage: function () {
+      console.log('displayImage called');
+        $("#upload-image-button").change(function () {
+          console.log('that change event fired.');
+          if (this.files && this.files[0]) {
+            console.log('and the file loaded');
+            console.log(this.files[0]);
+
+            var reader = new FileReader();
+            reader.onload = imageIsLoaded;
+            reader.readAsDataURL(this.files[0]);
+
+          }
+        });
+
+        function imageIsLoaded(e) {
+          console.log('image is loaded fired');
+          $('header#header').prepend('<img id="myImg" src="" />');
+          $('#myImg').attr('src', e.target.result);
+        };
+
+      },
+
       // Add a single message item to the list by creating a view for it, and
       // appending its element to the `<ul>`.
       addOne: function(message) {
@@ -271,34 +296,34 @@ $(function() {
         var message = this.input.val();
         var user;
         var recipient = this.recipient.val();
-          var fileUploadControl = $("#image-upload-button")[0];
-          if (fileUploadControl.files.length > 0) {
-            var file = fileUploadControl.files[0];
-            var name = "image.png";
-            var parseFile = new Parse.File(name, file);
-            parseFile.save().then(function () {
-              console.log('file saved?');           
-              saveMessage(message, user, parseFile);
-            },
-            function (error) {
-              console.log(error);
-            });
-          }
-          var that = this;
-          // remember later to handle messages with no recipient
-          function saveMessage (message, user, image) {
-            that.messages.create({
-              content: message,
-              image: image,
-              order:   that.messages.nextOrder(),
-              done:    false,
-              recipient: recipient,
-            });
-          };
+        var fileUploadControl = $("#image-upload-button")[0];
+        if (fileUploadControl.files.length > 0) {
+          var file = fileUploadControl.files[0];
+          var name = "image.png";
+          var parseFile = new Parse.File(name, file);
+          parseFile.save().then(function () {
+            console.log('file saved?');
+            saveMessage(message, user, parseFile);
+          },
+          function (error) {
+            console.log(error);
+          });
+        }
+        var that = this;
+        // remember later to handle messages with no recipient
+        function saveMessage (message, user, image) {
+          that.messages.create({
+            content: message,
+            image: image,
+            order:   that.messages.nextOrder(),
+            done:    false,
+            recipient: recipient,
+          });
+        };
 
-          this.input.val('');
-          this.recipient.val('');
-          this.resetFilters();
+        this.input.val('');
+        this.recipient.val('');
+        this.resetFilters();
 
       },
 
