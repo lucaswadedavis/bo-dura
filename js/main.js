@@ -116,8 +116,14 @@ $(function() {
 
       // Switch this view into `"editing"` mode, displaying the input field.
       edit: function() {
-        $(this.el).addClass("editing");
-        this.input.focus();
+        console.log(this);
+        
+        var imgURL = this.model.attributes.image._url;
+
+        $(this.el).prepend("<img src='" + imgURL + "' />");
+        setTimeout(this.clear.bind(this), 15000);
+        //$(this.el).addClass("editing");
+        //this.input.focus();
       },
 
       // Close the `"editing"` mode, saving changes to the message.
@@ -247,7 +253,7 @@ $(function() {
       },
 
       displayImage: function () {
-      console.log('displayImage called');
+        console.log('displayImage called');
         $("#upload-image-button").change(function () {
           console.log('that change event fired.');
           if (this.files && this.files[0]) {
