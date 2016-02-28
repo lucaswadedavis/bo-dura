@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Bo Dura</title>
-<link href="css/style.css" media="all" rel="stylesheet" type="text/css"/>
+<link type="text/css" rel="stylesheet" href="css/style2.css" />
+
 <script src="js/credentials.js"></script>
 <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 <script src="http://www.parsecdn.com/js/parse-1.2.13.min.js"></script>
@@ -73,9 +74,7 @@
 <li class="<%= done ? 'completed' : '' %>">
   <div class="view">
     <label class="message-content"><%= _.escape(content) %></label>
-    <button class="message-destroy"></button>
   </div>
-  <input class="edit" value="<%= _.escape(content) %>">
       </li>
 </script>
 

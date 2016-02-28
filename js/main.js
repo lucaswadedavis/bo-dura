@@ -196,13 +196,13 @@ $(function() {
       render: function() {
         var done = this.messages.done().length;
         var remaining = this.messages.remaining().length;
-
+        /*
         this.$('#message-stats').html(this.statsTemplate({
           total:      this.messages.length,
           done:       done,
           remaining:  remaining
         }));
-
+        */
         this.delegateEvents();
       },
 
