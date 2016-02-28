@@ -155,7 +155,8 @@ $(function() {
 
       // Delegated events for creating new items, and clearing completed ones.
       events: {
-        "keypress #new-message":  "createOnEnter",
+      "keypress #new-message":  "createOnEnter",
+      "keypress #new-message-recipient": "createOnEnter",
       "click #clear-completed": "clearCompleted",
       "click #toggle-all": "toggleAllComplete",
       "click .log-out": "logOut",
@@ -302,7 +303,7 @@ $(function() {
         var message = this.input.val();
         var user;
         var recipient = this.recipient.val();
-        var fileUploadControl = $("#image-upload-button")[0];
+        var fileUploadControl = $("#upload-image-button")[0];
         if (fileUploadControl.files.length > 0) {
           var file = fileUploadControl.files[0];
           var name = "image.png";
