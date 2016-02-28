@@ -245,7 +245,7 @@ $(function() {
             var reader = new FileReader();
             reader.onload = imageIsLoaded;
             reader.readAsDataURL(this.files[0]);
-            $("#upload-image-container").hide();
+            $("#upload-image-button-container").hide();
           }
         });
 
@@ -295,16 +295,15 @@ $(function() {
             console.log(error);
           });
         }
-        var that = this;
-        // remember later to handle messages with no recipient
+
         function saveMessage (message, user, image) {
-          that.messages.create({
-            content: message,
-            image: image,
-            order:   that.messages.nextOrder(),
-            done:    false,
-            recipient: recipient,
-          });
+          var msg = new Message();
+          msg.set("content", message);
+          msg.set("image", image);
+          msg.set("order", self.messages.nextOrder());
+          msg.set("recipient", recipient);
+          
+          msg.save();
         };
 
         this.input.val('');
