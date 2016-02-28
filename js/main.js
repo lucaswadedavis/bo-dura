@@ -27,10 +27,6 @@ $(function() {
         }
       },
 
-      // Toggle the `done` state of this message item.
-      toggle: function() {
-        this.save({done: !this.get("done")});
-      }
   });
 
   // This is the transient application state, not persisted on Parse
@@ -86,7 +82,6 @@ $(function() {
 
       // The DOM events specific to an item.
       events: {
-        "click .toggle"              : "toggleDone",
       "dblclick label.message-content" : "edit",
       "click .message-destroy"   : "clear",
       "keypress .edit"      : "updateOnEnter",
@@ -109,21 +104,12 @@ $(function() {
         return this;
       },
 
-      // Toggle the `"done"` state of the model.
-      toggleDone: function() {
-        this.model.toggle();
-      },
-
       // Switch this view into `"editing"` mode, displaying the input field.
       edit: function() {
-        console.log(this);
-        
         var imgURL = this.model.attributes.image._url;
 
-        $(this.el).prepend("<img src='" + imgURL + "' />");
+        $(this.el).prepend("<img id='ephemeral-image' src='" + imgURL + "' />");
         setTimeout(this.clear.bind(this), 15000);
-        //$(this.el).addClass("editing");
-        //this.input.focus();
       },
 
       // Close the `"editing"` mode, saving changes to the message.
@@ -158,7 +144,6 @@ $(function() {
       "keypress #new-message":  "createOnEnter",
       "keypress #new-message-recipient": "createOnEnter",
       "click #clear-completed": "clearCompleted",
-      "click #toggle-all": "toggleAllComplete",
       "click .log-out": "logOut",
       "click ul#filters a": "selectFilter"
       },
@@ -171,15 +156,13 @@ $(function() {
       initialize: function() {
         var self = this;
 
-        _.bindAll(this, 'addOne', 'addAll', 'addSome', 'render', 'toggleAllComplete', 'logOut', 'createOnEnter');
+        _.bindAll(this, 'addOne', 'addAll', 'addSome', 'render', 'logOut', 'createOnEnter');
 
         // Main message management template
         this.$el.html(_.template($("#manage-messages-template").html()));
 
         this.input = this.$("#new-message");
         this.recipient = this.$("#new-message-recipient");
-
-        this.allCheckbox = this.$("#toggle-all")[0];
 
         // Create our collection of Messages
         this.messages = new MessageList;
@@ -221,8 +204,6 @@ $(function() {
         }));
 
         this.delegateEvents();
-
-        this.allCheckbox.checked = !remaining;
       },
 
       // Filters the list based on which type of filter is selected
@@ -255,7 +236,7 @@ $(function() {
 
       resetImage: function () {
         $("#unsent-image").remove();
-        $("#upload-image-button").show();
+        $("#upload-image-button-container").show();
       },
 
       displayImage: function () {
@@ -264,7 +245,7 @@ $(function() {
             var reader = new FileReader();
             reader.onload = imageIsLoaded;
             reader.readAsDataURL(this.files[0]);
-            $(this).hide();
+            $("#upload-image-container").hide();
           }
         });
 
@@ -308,7 +289,6 @@ $(function() {
           var name = "image.png";
           var parseFile = new Parse.File(name, file);
           parseFile.save().then(function () {
-            console.log('file saved?');
             saveMessage(message, user, parseFile);
           },
           function (error) {
@@ -340,10 +320,6 @@ $(function() {
         return false;
       },
 
-      toggleAllComplete: function () {
-        var done = this.allCheckbox.checked;
-        this.messages.each(function (message) { message.save({'done': done}); });
-      }
   });
 
   var LogInView = Parse.View.extend({

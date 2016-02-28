@@ -145,6 +145,20 @@ body {
     box-shadow: none;
 }
 
+#upload-image-button {
+  opacity: 0;
+  cursor: pointer;
+  height: 45px;
+}
+
+#upload-image-button-container {
+  background: red url(../images/upload-button.png) left top no-repeat; 
+}
+
+#unsent-image, #ephemeral-image {
+  max-width: 550px;
+}
+
 #main {
     position: relative;
     z-index: 2;
