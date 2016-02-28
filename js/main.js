@@ -179,7 +179,7 @@ $(function() {
 
         // Setup the query for the collection to look for messages from the current user
         this.messages.query = new Parse.Query(Message);
-        this.messages.query.equalTo("user", Parse.User.current());
+        this.messages.query.equalTo("recipient", Parse.User.current().getUsername());
 
         this.messages.bind('add',     this.addOne);
         this.messages.bind('reset',   this.addAll);
@@ -269,42 +269,37 @@ $(function() {
         var self = this;
         if (e.keyCode != 13) return;
         var message = this.input.val();
+        var user;
         var recipient = this.recipient.val();
-        var query = new Parse.Query(Parse.User);
-        query.equalTo("username", recipient.toLowerCase());
-        query.find({success: function (data) {
-         var fileUploadControl = $("#image-upload-button")[0];
-        if (fileUploadControl.files.length > 0) {
-          var file = fileUploadControl.files[0];
-          var name = "image.png";
-          var parseFile = new Parse.File(name, file);
-          parseFile.save().then(function () {
-            console.log('file saved?');           
-            saveMessage(parseFile);
-          },
-          function (error) {
-            console.log(error);
-          });
-          console.log(file);
-        }
-        var that = this;
-         // remember later to handle messages with no recipient
-        function saveMessage (parseFile) {
-          that.messages.create({
-            content: message,
-            image: parseFile,
-            order:   that.messages.nextOrder(),
-            done:    false,
-            user: data[0],
-            ACL: new Parse.ACL(data[0])
-          });
+          var fileUploadControl = $("#image-upload-button")[0];
+          if (fileUploadControl.files.length > 0) {
+            var file = fileUploadControl.files[0];
+            var name = "image.png";
+            var parseFile = new Parse.File(name, file);
+            parseFile.save().then(function () {
+              console.log('file saved?');           
+              saveMessage(message, user, parseFile);
+            },
+            function (error) {
+              console.log(error);
+            });
+          }
+          var that = this;
+          // remember later to handle messages with no recipient
+          function saveMessage (message, user, image) {
+            that.messages.create({
+              content: message,
+              image: image,
+              order:   that.messages.nextOrder(),
+              done:    false,
+              recipient: recipient,
+            });
           };
 
           this.input.val('');
           this.recipient.val('');
           this.resetFilters();
 
-        }.bind(this)});
       },
 
       // Clear all done message items, destroying their models.
