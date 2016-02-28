@@ -253,25 +253,24 @@ $(function() {
         this.addAll();
       },
 
-      displayImage: function () {
-        console.log('displayImage called');
-        $("#upload-image-button").change(function () {
-          console.log('that change event fired.');
-          if (this.files && this.files[0]) {
-            console.log('and the file loaded');
-            console.log(this.files[0]);
+      resetImage: function () {
+        $("#unsent-image").remove();
+        $("#upload-image-button").show();
+      },
 
+      displayImage: function () {
+        $("#upload-image-button").change(function () {
+          if (this.files && this.files[0]) {
             var reader = new FileReader();
             reader.onload = imageIsLoaded;
             reader.readAsDataURL(this.files[0]);
-
+            $(this).hide();
           }
         });
 
         function imageIsLoaded(e) {
-          console.log('image is loaded fired');
-          $('header#header').prepend('<img id="myImg" src="" />');
-          $('#myImg').attr('src', e.target.result);
+          $('header#header').prepend('<img id="unsent-image" src="" />');
+          $('#unsent-image').attr('src', e.target.result);
         };
 
       },
@@ -330,6 +329,7 @@ $(function() {
 
         this.input.val('');
         this.recipient.val('');
+        this.resetImage();
         this.resetFilters();
 
       },
