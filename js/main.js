@@ -1,4 +1,4 @@
-// An example Parse.js Backbone application based on the message app by
+// An example Parse.js Backbone application based on the todo app by
 // [Jérôme Gravel-Niquet](http://jgn.me/). This demo uses Parse to persist
 // the message items and provide user authentication and sessions.
 
@@ -12,12 +12,11 @@ $(function() {
   // Message Model
   // ----------
 
-  // Our basic Message model has `content`, `order`, and `done` attributes.
+  // Our basic Message model has `content`, and `order' attributes.
   var Message = Parse.Object.extend("Message", {
     // Default attributes for the message.
     defaults: {
-      content: "empty message...",
-      done: false
+      content: "empty message..."
     },
 
       // Ensure that each message created has `content`.
@@ -43,16 +42,6 @@ $(function() {
 
     // Reference to this collection's model.
     model: Message,
-
-      // Filter down the list of all message items that are finished.
-      done: function() {
-        return this.filter(function(message){ return message.get('done'); });
-      },
-
-      // Filter down the list to only message items that are still not finished.
-      remaining: function() {
-        return this.without.apply(this, this.done());
-      },
 
       // We keep the Messages in sequential order, despite being saved by unordered
       // GUID in the database. This generates the next order number for new items.
@@ -82,10 +71,10 @@ $(function() {
 
       // The DOM events specific to an item.
       events: {
-      "click label.message-content" : "edit",
-      "click .message-destroy"   : "clear",
-      "keypress .edit"      : "updateOnEnter",
-      "blur .edit"          : "close"
+      "click label.message-content": "displayImage",
+      "click .message-destroy": "clear",
+      "keypress .edit": "updateOnEnter",
+      "blur .edit": "close"
       },
 
       // The MessageView listens for changes to its model, re-rendering. Since there's
@@ -105,7 +94,7 @@ $(function() {
       },
 
       // Switch this view into `"editing"` mode, displaying the input field.
-      edit: function() {
+      displayImage: function() {
         var imgURL = this.model.attributes.image._url;
 
         $(this.el).prepend("<img id='ephemeral-image' src='" + imgURL + "' />");
@@ -141,11 +130,8 @@ $(function() {
 
       // Delegated events for creating new items, and clearing completed ones.
       events: {
-      "keypress #new-message":  "createOnEnter",
       "keypress #new-message-recipient": "createOnEnter",
-      "click #clear-completed": "clearCompleted",
-      "click .log-out": "logOut",
-      "click ul#filters a": "selectFilter"
+      "click .log-out": "logOut"
       },
 
       el: ".content",
@@ -194,16 +180,7 @@ $(function() {
       // Re-rendering the App just means refreshing the statistics -- the rest
       // of the app doesn't change.
       render: function() {
-        var done = this.messages.done().length;
-        var remaining = this.messages.remaining().length;
-        /*
-        this.$('#message-stats').html(this.statsTemplate({
-          total:      this.messages.length,
-          done:       done,
-          remaining:  remaining
-        }));
-        */
-        this.delegateEvents();
+       this.delegateEvents();
       },
 
       // Filters the list based on which type of filter is selected
@@ -215,16 +192,9 @@ $(function() {
       },
 
       filter: function() {
-        var filterValue = state.get("filter");
         this.$("ul#filters a").removeClass("selected");
         this.$("ul#filters a#" + filterValue).addClass("selected");
-        if (filterValue === "all") {
           this.addAll();
-        } else if (filterValue === "completed") {
-          this.addSome(function(item) { return item.get('done') });
-        } else {
-          this.addSome(function(item) { return !item.get('done') });
-        }
       },
 
       // Resets the filters to display all messages
@@ -310,14 +280,7 @@ $(function() {
         this.input.val('');
         this.recipient.val('');
         this.resetImage();
-        this.resetFilters();
 
-      },
-
-      // Clear all done message items, destroying their models.
-      clearCompleted: function() {
-        _.each(this.messages.done(), function(message){ message.destroy(); });
-        return false;
       },
 
   });
@@ -408,9 +371,7 @@ $(function() {
 
   var AppRouter = Parse.Router.extend({
     routes: {
-      "all": "all",
-      "active": "active",
-      "completed": "completed"
+      "all": "all"
     },
 
       initialize: function(options) {
@@ -418,14 +379,6 @@ $(function() {
 
       all: function() {
         state.set({ filter: "all" });
-      },
-
-      active: function() {
-        state.set({ filter: "active" });
-      },
-
-      completed: function() {
-        state.set({ filter: "completed" });
       }
   });
 
