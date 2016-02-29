@@ -298,7 +298,7 @@ $(function() {
 
         function saveMessage (message, user, image) {
           var msg = new Message();
-          msg.set("content", message);
+          msg.set("content", message.slice(0, 140));
           msg.set("image", image);
           msg.set("order", self.messages.nextOrder());
           msg.set("recipient", recipient);
