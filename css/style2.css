@@ -42,14 +42,6 @@ body {
     border-top-right-radius: 2px;
 }
 
-#messageapp input::-webkit-input-placeholder {
-    font-style: italic;
-}
-
-#messageapp input:-moz-placeholder {
-    font-style: italic;
-    color: #a9a9a9;
-}
 
 #messageapp h1 {
     position: absolute;
@@ -86,7 +78,7 @@ body {
     position: relative;
     margin: 0;
     width: 100%;
-    font-size: 24px;
+    font-size: 20px;
     font-family: inherit;
     line-height: 1.4em;
     border: 0;
@@ -107,7 +99,7 @@ body {
 }
 
 #new-message, #new-message-recipient {
-    padding: 16px 16px 16px 60px;
+    padding: 6px;
     border: none;
     background: rgba(0, 0, 0, 0.02);
     z-index: 2;
@@ -126,6 +118,11 @@ body {
 
 #unsent-image, #ephemeral-image {
   max-width: 550px;
+}
+
+.sender {
+  font-size: 0.5em;
+  color: #ccc;
 }
 
 #main {
@@ -216,7 +213,7 @@ body {
     text-decoration: none;
     color: #fff;
     background: #f00;
-    padding: 5px;
+    padding: 6px 6px 7px 6px;
     margin: -50px -10px -5px 20px;
 }
 

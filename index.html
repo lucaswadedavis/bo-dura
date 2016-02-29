@@ -18,7 +18,7 @@
 
 <div id="messageapp">
   <div class="title">
-    <h1>Bo Dura</h1>
+    <h1>BO DURA</h1>
   </div>
 
   <div class="content">
@@ -55,9 +55,9 @@
       <div class="section">
 
         <header id="header">
+          <input id="new-message" placeholder="Add a Message First" type="text" />
           <div id="upload-image-button-container"><input type="file" id="upload-image-button" /></div>
-          <input id="new-message" placeholder="Add a message first" type="text" />
-          <input id="new-message-recipient" placeholder="To Whom?" type="text" />
+          <input id="new-message-recipient" placeholder="To Whom Shall We Address This?" type="text" />
         </header>
 
         <div id="main">
@@ -73,6 +73,7 @@
 <script type="text/template" id="item-template">
 <li class="<%= done ? 'completed' : '' %>">
   <div class="view">
+    <div class="sender"><%= _.escape(sender) %></div>
     <label class="message-content"><%= _.escape(content) %></label>
   </div>
       </li>

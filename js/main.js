@@ -302,7 +302,8 @@ $(function() {
           msg.set("image", image);
           msg.set("order", self.messages.nextOrder());
           msg.set("recipient", recipient);
-          
+          msg.set("user", Parse.User.current());
+          msg.set("sender", Parse.User.current().getUsername());
           msg.save();
         };
 
