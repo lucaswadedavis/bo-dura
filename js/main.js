@@ -82,7 +82,7 @@ $(function() {
 
       // The DOM events specific to an item.
       events: {
-      "dblclick label.message-content" : "edit",
+      "click label.message-content" : "edit",
       "click .message-destroy"   : "clear",
       "keypress .edit"      : "updateOnEnter",
       "blur .edit"          : "close"
