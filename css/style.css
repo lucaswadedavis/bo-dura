@@ -148,6 +148,10 @@ body {
   color: #ccc;
 }
 
+.centered {
+  text-align: center;
+}
+
 #main {
   position: relative;
   z-index: 2;

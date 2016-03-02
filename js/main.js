@@ -6,8 +6,7 @@ $(function() {
   Parse.$ = jQuery;
 
   // Initialize Parse with your Parse application javascript keys
-  Parse.initialize(creds.appID,
-    creds.jsKey);
+  Parse.initialize(creds.appID, creds.jsKey);
 
   // Message Model
   // ----------
@@ -121,6 +120,22 @@ $(function() {
 
   // The Application
   // ---------------
+
+  // The main vieflw that lets a user manage their message items
+  var VerifyEmailView = Parse.View.extend({
+
+      el: ".content",
+
+      initialize: function() {
+        var self = this;
+        this.$el.html(_.template($("#verify-email-template").html()));
+        Parse.User.logOut();
+      },
+      
+      render: function() {
+      },
+  });
+
 
   // The main view that lets a user manage their message items
   var ManageMessagesView = Parse.View.extend({
@@ -305,7 +320,7 @@ $(function() {
 
         Parse.User.logIn(username, password, {
           success: function(user) {
-            new ManageMessagesView();
+            user.attributes.emailVerified ? new ManageMessagesView() : new VerifyEmailView();
             self.undelegateEvents();
             delete self;
           },
@@ -325,10 +340,11 @@ $(function() {
         var self = this;
         var username = this.$("#signup-username").val();
         var password = this.$("#signup-password").val();
+        var email = this.$("#signup-email").val();
 
-        Parse.User.signUp(username, password, { ACL: new Parse.ACL() }, {
+        Parse.User.signUp(username, password, { ACL: new Parse.ACL(), email: email }, {
           success: function(user) {
-            new ManageMessagesView();
+            new VerifyEmailView();
             self.undelegateEvents();
             delete self;
           },
@@ -362,7 +378,7 @@ $(function() {
 
       render: function() {
         if (Parse.User.current()) {
-          new ManageMessagesView();
+          Parse.User.current().attributes.emailVerified ? new ManageMessagesView() : new VerifyEmailView();
         } else {
           new LogInView();
         }

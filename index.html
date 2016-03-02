@@ -42,11 +42,21 @@
           <h2>Sign Up</h2>
           <div class="error" style="display:none"></div>
           <input type="text" id="signup-username" placeholder="Username" />
+          <input type="email" id="signup-email" placeholder="Email" />
           <input type="password" id="signup-password" placeholder="Create a Password" />
           <button>Sign Up</button>
         </form>
       </div>
 </script>
+
+<script type="text/template" id="verify-email-template">
+      <div class="section">
+        <header id="header">
+          <div class='centered'>Please verify the email address you provided (<%= Parse.User.current().escape("email") %>)</div>
+        </header>
+      </div>
+</script>
+
 
 <script type="text/template" id="manage-messages-template">
 <div id="user-info">
